@@ -1,9 +1,13 @@
+from multiprocessing import context
 from urllib import request
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Advertisement
 
 def ind(request):
-    return render(request, 'index.html')
+    advertisement= Advertisement.objects.all()
+    context={'advertisement': advertisement}
+    return render(request, 'index.html', context)
 
 def top_sellers(request):
     return render(request, 'top-sellers.html')

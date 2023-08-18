@@ -12,8 +12,8 @@ class Advertisement(models.Model):
     auction=models.BooleanField('Торг',help_text='Укажите True, если торг уместен')
     created_date=models.DateTimeField(auto_now_add=True)
     update_date=models.DateTimeField(auto_now=True)
-    user= models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE)
-    image= models.ImageField('изображение', upload_to='advertisement/')
+    user= models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE, default=1)
+    image= models.ImageField('изображение', upload_to='advertisement/', blank=True, null=True)
 
     @admin.display(description='Дата создания')
     def created_date_time(self):
@@ -36,6 +36,17 @@ class Advertisement(models.Model):
             )
         
         return self.update_date.strftime('%d.%m.%Y в %H:%M:%S')
+    
+    @admin.display(description='фото')
+    def image_tag(self):
+        if self.image:
+            return format_html(
+                '<img src="{url}" style="max-width: 80px; max-height: 80px;"',url=self.image.url
+            )
+        else:
+            return format_html(
+                '<img src="{url}" style="max-width: 80px; max-height: 80px;"',url='/static/img/adv.png'
+            )
 
     
     class Meta:

@@ -6,7 +6,7 @@
 {% block content %}
 <ul class="nav nav-pills sticky-top bg-white nav-fill">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="index.html">
+    <a class="nav-link active" aria-current="page" href="{% url 'index' %}">
       <span style="font-weight: bold;">Главная</span>
     </a>
   </li>
@@ -20,7 +20,7 @@
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'register' %}">
+    <a class="nav-link" href="register.html">
       <span style="font-weight: bold;">Регистрация</span>
     </a>
   </li>
@@ -35,7 +35,7 @@
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">
+    <a class="nav-link" href="{% url 'logout' %}">
       <span style="font-weight: bold;">Выйти</span>
     </a>
   </li>
@@ -92,7 +92,7 @@
       </div>
     </form>
   </div>
-  {% for adv in advertisement %}
+  {% for adv in advertisements %}
   <div class="col">
     <div class="card mb-2" style="max-width: 1200px; margin-top: 20px;">
       <div class="row g-0">
@@ -204,8 +204,5 @@
     </div>
   </nav>
 </footer>
-{% endblock %}
-
-{% block scripts %}
 
 {% endblock %}

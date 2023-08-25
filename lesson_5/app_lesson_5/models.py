@@ -45,7 +45,7 @@ class Advertisement(models.Model):
             )
         else:
             return format_html(
-                '<img src="{url}" style="max-width: 80px; max-height: 80px;"',url='/static/img/adv.png'
+                '<img  src="{url}" style="max-width: 80px; max-height: 80px;"',url='/static/img/adv.png'
             )
 
     

@@ -20,7 +20,8 @@
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="register.html">
+    {% if not user.is_authenticated %}
+    <a class="nav-link" href="{% url 'register' %}">
       <span style="font-weight: bold;">Регистрация</span>
     </a>
   </li>
@@ -30,14 +31,17 @@
     </a>
   </li>
   <li class="nav-item">
+    {% else %}
     <a class="nav-link" href="{% url 'profile' %}">
       <span style="font-weight: bold;">Профиль</span>
     </a>
   </li>
   <li class="nav-item">
+
     <a class="nav-link" href="{% url 'logout' %}">
       <span style="font-weight: bold;">Выйти</span>
     </a>
+    {% endif %}
   </li>
 </ul>
 
@@ -83,9 +87,9 @@
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Еще что-нибудь</a>
       </li>
     </ul>
-    <form class="row g-3">
+    <form class="row g-3" method="get">
       <div class="col-auto w-50">
-        <input type="text" class="form-control">
+        <input name="query" value="{% if title %}{{ title }}{% endif %}" type="text" class="form-control">
       </div>
       <div class="col-auto">
         <button type="submit" class="btn btn-success mb-3">Найти</button>
@@ -97,82 +101,29 @@
     <div class="card mb-2" style="max-width: 1200px; margin-top: 20px;">
       <div class="row g-0">
         <div class="col-md-4">
-          <a href="advertisement.html" class="nav-link">
-            <img src="{% if adv.image %} {{ adv.image.url }} {% else %} {% static 'img/adv.png' %} {% endif %}" class="img-fluid rounded-start" alt="Card title">
+          <a href="{{ adv.get_url }}" class="nav-link">
+            <img src="{% if adv.image %} {{ adv.image.url }} {% else %} {% static 'img/adv.png' %} {% endif %}"
+                 class="img-fluid rounded-start" alt="Card title">
           </a>
         </div>
         <div class="col-md-8">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="advertisement.html" class="nav-link"><strong>{{ adv.title }}</strong></a>
+              <a href="{{ adv.get_url }}" class="nav-link"><strong>{{ adv.title }}</strong></a>
             </h5>
-            <a href="advertisement.html" class="nav-link">
+            <a href="{{ adv.get_url }}" class="nav-link">
               <p class="card-text">
-                {{ adv.description }} 
+                {{ adv.description }}
               </p>
               <span>Автор: {{ adv.user }}</span>
-              <p class="card-text"><small class="text-muted">Размещено: {{ adv.created_date }}</small></p>
-              <span>Цена: {{ adv.price }}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-    <div class="card mb-2" style="max-width: 1200px; margin-top: 20px;">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <a href="advertisement.html" class="nav-link">
-            <img src="img/adv.png" class="img-fluid rounded-start" alt="Card title">
-          </a>
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">
-              <a href="advertisement.html" class="nav-link"><strong>{{ adv.title }}</strong></a>
-            </h5>
-            <a href="advertisement.html" class="nav-link">
-              <p class="card-text">
-                {{ adv.description }} 
-              </p>
-              <span>Автор: Никнейм автора объявления</span>
-              <p class="card-text"><small class="text-muted">Размещено: {{ adv.created_date }}</small></p>
+              <p class="card-text"><small class="text-muted">Размещено: {{ adv.created_at }}</small></p>
               <span>Цена: {{ adv.price }}</span>
             </a>
           </div>
         </div>
       </div>
     </div>
-    <div class="card mb-2" style="max-width: 1200px; margin-top: 20px;">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <a href="advertisement.html" class="nav-link">
-            <img src="img/adv.png" class="img-fluid rounded-start" alt="Card title">
-          </a>
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">
-              <a href="advertisement.html" class="nav-link"><strong>Куплю баню</strong></a>
-            </h5>
-            <a href="advertisement.html" class="nav-link">
-              <p class="card-text">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas, nulla eos neque dolorum quis aliquid
-                deleniti molestias, nobis debitis expedita, fugiat ea. Delectus harum quo dolores modi cupiditate in
-                tempore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas quis similique quas
-                architecto doloremque culpa consequatur excepturi provident quo fugit repudiandae inventore quae ea
-                sequi, recusandae aliquid veritatis rerum quibusdam?
-              </p>
-              <span>Автор: Никнейм автора объявления</span>
-              <p class="card-text"><small class="text-muted">Размещено: здесь должна стоять дата</small></p>
-              
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    {% endfor %}
 <footer style="padding: 100px;" class="bg-primary">
   <nav class="navbar navbar-expand-sm navbar-dark">
     <a class="navbar-brand" href="#">Добавьте</a>

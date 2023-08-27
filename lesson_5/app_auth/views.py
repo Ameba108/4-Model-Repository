@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-
+from .forms import ExtendedUserCreationForm
 
 def login_view(request):
     redirect_url = reverse('profile')
@@ -23,6 +24,23 @@ def login_view(request):
 @login_required(login_url=reverse_lazy('login'))
 def profile_view(request):
     return render(request, 'app_auth/profile.html')
+
+def register_view(request):
+    if request.method == "POST":
+        form = ExtendedUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user = authenticate(username=user.username, password=request.POST['password1'])
+            login(request, user=user)
+            return redirect(reverse('profile'))
+    else:
+        form = ExtendedUserCreationForm()
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'app_auth/register.html', context)
 
 
 def logout_view(request):
